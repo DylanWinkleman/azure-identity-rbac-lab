@@ -1,0 +1,16 @@
+# Local / editor
+.idea/
+.vscode/
+*.log
+
+# Azure CLI / secrets — never commit these
+*.env
+.azure/
+*secret*
+*.pem
+azureProfile.json
+accessTokens.json
+
+# OS
+.DS_Store
+Thumbs.db

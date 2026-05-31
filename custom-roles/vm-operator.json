@@ -1,0 +1,17 @@
+{
+  "Name": "VM Operator (Lab)",
+  "Description": "Can start, restart, and view VMs but cannot create or delete them.",
+  "Actions": [
+    "Microsoft.Compute/virtualMachines/read",
+    "Microsoft.Compute/virtualMachines/start/action",
+    "Microsoft.Compute/virtualMachines/restart/action",
+    "Microsoft.Compute/virtualMachines/instanceView/read",
+    "Microsoft.Resources/subscriptions/resourceGroups/read"
+  ],
+  "NotActions": [],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": [
+    "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-identity-lab"
+  ]
+}
