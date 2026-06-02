@@ -91,8 +91,10 @@ The denial in action — a valid name but a disallowed region is rejected by pol
 
 ### 5. Management groups & tags
 **What I did:**
-- Created management group `<name>` and placed the subscription under it
-- Applied tags (`env=lab`, `owner=dylan`, `costcenter=…`) for organization/cost tracking
+- Created management group **`Lab Management Group`** (`mg-lab`) and moved the subscription under it, so the hierarchy is **Tenant Root Group → Lab Management Group → subscription**
+- Applied tags (`env=lab`, `owner=dylan`) to `rg-identity-lab` for organization / cost tracking
+
+**Key concept:** Management groups extend the inheritance model one level above subscriptions — assign policy or RBAC at `mg-lab` and every subscription beneath inherits it.
 
 ![Management groups & tags](screenshots/05-mgmt-groups-tags.png)
 
