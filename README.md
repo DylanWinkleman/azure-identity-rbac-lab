@@ -35,8 +35,8 @@ Microsoft Entra ID · Azure RBAC · Custom Roles · Azure Policy · Management G
 
 ### 1. Entra ID users & groups
 **What I did:**
-- Created `<N>` Entra ID users (e.g. `alice@…`, `bob@…`)
-- Created group(s): `<group-name>` and added members
+- Created 2 Entra ID users — `alice@…onmicrosoft.com` (Alice Lab) and `bob@…onmicrosoft.com` (Bob Lab)
+- Created a **Security** group `lab-readers` (membership type: Assigned) and added both users
 
 **Why it matters:** assigning access to *groups* instead of individual users is the scalable, real-world pattern.
 
@@ -50,10 +50,10 @@ Microsoft Entra ID · Azure RBAC · Custom Roles · Azure Policy · Management G
 
 ### 2. Built-in RBAC role assignments
 **What I did:**
-- Assigned **Reader** to `<group>` at `<subscription | resource group>` scope
-- Assigned **Contributor** to `<group/user>` at `<resource group>` scope
+- Assigned **Reader** to `lab-readers` at **subscription** scope (broad, read-only)
+- Assigned **Contributor** to `lab-readers` at the **`rg-identity-lab`** resource-group scope (write, but only in that RG)
 
-**Key concept:** *role assignment = security principal + role definition + scope.* Scope inherits downward (management group → subscription → resource group → resource).
+**Key concept:** *role assignment = security principal + role definition + scope.* Scope inherits downward (management group → subscription → resource group → resource). The screenshot shows this clearly: at the resource group, `lab-readers` has **Contributor (This resource)** *and* an inherited **Reader (Subscription)** — least privilege in action.
 
 ![RBAC assignments](screenshots/02-rbac-assignments.png)
 
@@ -61,10 +61,14 @@ Microsoft Entra ID · Azure RBAC · Custom Roles · Azure Policy · Management G
 
 ### 3. Custom RBAC role
 **What I did:**
-- Authored a custom role `<role-name>` granting only `<actions>` (e.g. start/restart VMs but not delete)
-- Assigned it at `<scope>` and verified the principal could do *only* the intended actions
+- Authored a custom role **`VM Operator (Lab)`** (started from scratch) granting only:
+  - `Microsoft.Compute/virtualMachines/read`
+  - `Microsoft.Compute/virtualMachines/start/action`
+  - `Microsoft.Compute/virtualMachines/restart/action`
+- Deliberately **omitted** `write`/`delete` — operators can keep VMs running but can't create or tear them down
+- Assignable scope: `rg-identity-lab`
 
-See [`custom-roles/`](custom-roles/) for the role definition JSON.
+See [`custom-roles/vm-operator.json`](custom-roles/vm-operator.json) for the role definition JSON.
 
 ![Custom role](screenshots/03-custom-role.png)
 
@@ -72,10 +76,16 @@ See [`custom-roles/`](custom-roles/) for the role definition JSON.
 
 ### 4. Azure Policy
 **What I did:**
-- Assigned policy: `<Allowed locations | Require a tag on resources>`
-- Verified enforcement by attempting a non-compliant deployment (denied / flagged)
+- Assigned the built-in **Allowed locations** policy, restricting resources to **East US**
+- Verified enforcement by attempting to create a Network Security Group in **West US 2** inside `rg-identity-lab` — Azure **denied** it at validation time, flagging the Region field with the *Allowed locations* policy
 
-![Azure Policy](screenshots/04-azure-policy.png)
+**Key concept:** Policy uses a **Deny** effect that blocks non-compliant resources *at creation*, not just reports them afterward — a real governance guardrail for cost control and data residency.
+
+![Azure Policy assignment](screenshots/04-azure-policy.png)
+
+The denial in action — a valid name but a disallowed region is rejected by policy:
+
+![Policy denial](screenshots/04b-policy-denied.png)
 
 ---
 
