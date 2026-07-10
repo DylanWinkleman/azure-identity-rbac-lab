@@ -6,7 +6,7 @@
 >
 > Maps to the **AZ-104 — Identity & Governance** exam domain (15–20%).
 
-![Status](https://img.shields.io/badge/status-in%20progress-yellow)
+![Status](https://img.shields.io/badge/status-complete-brightgreen)
 ![Azure](https://img.shields.io/badge/Azure-Entra%20ID%20%7C%20RBAC%20%7C%20Policy-0078D4)
 
 ---
@@ -29,9 +29,8 @@ Microsoft Entra ID · Azure RBAC · Custom Roles · Azure Policy · Management G
 
 ## 📋 Build log
 
-> Fill each section in as you complete it. Drop screenshots in `screenshots/` and
-> reference them inline. The goal is that someone reading this repo can see *exactly*
-> what you did and that it works.
+The sections below document the completed identity and governance configuration.
+Each step includes the corresponding verification screenshot.
 
 ### 1. Entra ID users & groups
 **What I did:**
@@ -107,18 +106,13 @@ The denial in action — a valid name but a disallowed region is rejected by pol
 # See scripts/99-cleanup.sh
 ```
 
-> Always tear down lab resources when finished to avoid charges.
+The temporary lab resources were removed after verification to avoid ongoing charges.
 
 ---
 
-## 🔗 Related
+## 🔗 Related labs
 
-- AZ-104 study tracker (Obsidian) — Identity & Governance domain
-- Companion labs: `azure-vm-networking-lab`, `azure-storage-sas-lab`, `azure-dns-static-web-app-lab`
-
-## 📝 Résumé bullet
-
-> Built an Azure identity & access-management lab: provisioned Entra ID users/groups,
-> applied least-privilege access with built-in and **custom RBAC roles** scoped per
-> resource group, and enforced governance guardrails with **Azure Policy**,
-> management groups, and tagging.
+- [Azure VM networking lab](https://github.com/DylanWinkleman/azure-vm-networking-lab)
+- [Azure Storage SAS lab](https://github.com/DylanWinkleman/azure-storage-sas-lab)
+- [Azure Monitoring lab](https://github.com/DylanWinkleman/azure-monitoring-lab)
+- [Azure DNS and Static Web Apps lab](https://github.com/DylanWinkleman/azure-domain-dns-lab)
